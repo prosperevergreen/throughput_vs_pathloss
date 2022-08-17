@@ -1,0 +1,29 @@
+version: '3'
+services:
+  throughput_vs_pathloss_client:
+    container_name: throughput_vs_pathloss_client_prod
+    image: prosperevergreen/throughput-vs-pathloss-client:prod
+    build:
+      context:  ./client
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    environment:
+      NODE_ENV: production
+    restart: always
+
+  throughput_vs_pathloss_server:
+    container_name: throughput_vs_pathloss_server_prod
+    image: prosperevergreen/throughput-vs-pathloss-server:prod
+    build:
+      context:  ./server
+      dockerfile: Dockerfile
+    ports:
+      - "5005:5000"
+    restart: always
+
+
+networks:
+  default:
+    external: true
+    name: nginx-proxy-manager-network

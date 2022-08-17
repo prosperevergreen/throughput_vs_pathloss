@@ -1,0 +1,31 @@
+version: '3'
+services:
+  throughput_vs_pathloss_client:
+    container_name: throughput_vs_pathloss_client_dev
+    image: prosperevergreen/throughput-vs-pathloss-client:dev
+    build:
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./client:/usr/src/app
+      - client_node_modules:/usr/src/app/node_modules
+    restart: 'no'
+
+
+  throughput_vs_pathloss_server:
+    container_name: throughput_vs_pathloss_server_dev
+    image: prosperevergreen/throughput-vs-pathloss-server:dev
+    volumes:
+      - ./server:/usr/src/app
+    restart: 'no'
+
+networks:
+  default:
+    external: false
+    name: throughput-vs-pathloss-network
+
+volumes:
+  client_node_modules:
