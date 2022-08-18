@@ -25,16 +25,16 @@ class Processor:
         # df = pd.read_csv("rsrp_vs_pdcp_DL_mob.csv", sep=';', engine='python')
         df = pd.DataFrame(data.df)
         df.dropna()
-        PDCP = df['PDCP DL bitrate'].str.replace(',', '.').astype(float)
-        RSRP = df['1. best RSRP'].str.replace(',', '.').astype(float)
+        # PDCP = df['PDCP DL bitrate'].str.replace(',', '.').astype(float)
+        # RSRP = df['1. best RSRP'].str.replace(',', '.').astype(float)
         # rsrp_pdcp = df[['PDCP DL bitrate', '1. best RSRP']].str.apply(lambda x: x.replace(',', '.')).astype('float')
-        list_of_tuples = list(zip(PDCP, RSRP))
-        df = pd.DataFrame(list_of_tuples,
-                          columns=['PDCP', 'RSRP'])
+        # list_of_tuples = list(zip(PDCP, RSRP))
+        # df = pd.DataFrame(list_of_tuples,
+        #                 columns=['PDCP', 'RSRP'])
         print(df)
-        data.pdcp_ = df['PDCP']
-        data.rsrp_ = df['RSRP']
-        return data.pdcp_, data.rsrp_
+        data.pdcp_ = df['pdcp']
+        data.pathloss = df['pathloss']
+        return data.pdcp_, data.pathloss
 
     # def dataFrame_handler(self):
     #     # df = pd.DataFrame(df)
@@ -48,36 +48,36 @@ class Processor:
     #     print(df)
     #     return df
 
-    def ssBlockPower_input(self):
-        while True:
-            ssblockPower = int(input("Enter the sspowerBlock(dB): "))
-            if ssblockPower > 0:
-                print("Ssblock Power is a negative number")
-            else:
-                return ssblockPower
+    # def ssBlockPower_input(self):
+    #     while True:
+    #         ssblockPower = int(input("Enter the sspowerBlock(dB): "))
+    #         if ssblockPower > 0:
+    #             print("Ssblock Power is a negative number")
+    #         else:
+    #             return ssblockPower
 
-    def pathloss_calculation(self, rsrp, ssblock_power):
-        # Use to calculate the pathloss = rsrp - ssblockpower
-        global pathloss
-        data = []
-        for i in rsrp:
-            pathloss = i - ssblock_power
-            data.append(pathloss)
-        pathloss = pd.DataFrame(data, columns=['Pathloss'])
-        # print(pathloss)
-        self.pathloss = pathloss
-        return pathloss
+    # def pathloss_calculation(self, rsrp, ssblock_power):
+    #     # Use to calculate the pathloss = rsrp - ssblockpower
+    #     global pathloss
+    #     data = []
+    #     for i in rsrp:
+    #         pathloss = i - ssblock_power
+    #         data.append(pathloss)
+    #     pathloss = pd.DataFrame(data, columns=['Pathloss'])
+    #     # print(pathloss)
+    #     self.pathloss = pathloss
+    #     return pathloss
 
-    def plot_function(self, pathloss, pdcp):
-        # print(pathloss)
-        # print(pdcp)
-        x = pathloss
-        y = pdcp
-        plt.scatter(x, y)
-        plt.gca().invert_xaxis()
-        plt.xlabel("Pathloss (dB)")
-        plt.ylabel("Throughput (Mbps)")
-        plt.show()
+    # def plot_function(self, pathloss, pdcp):
+    #     # print(pathloss)
+    #     # print(pdcp)
+    #     x = pathloss
+    #     y = pdcp
+    #     plt.scatter(x, y)
+    #     plt.gca().invert_xaxis()
+    #     plt.xlabel("Pathloss (dB)")
+    #     plt.ylabel("Throughput (Mbps)")
+    #     plt.show()
 
     def machine_learning(self, pathloss, pdcp):
         # feature X = pathloss
@@ -169,42 +169,41 @@ class Processor:
 
 
 class Plotter:
-    def __init__(self, sspower, pdcp1, rsrp1, pdcp2, rsrp2):
-        self.sspower = sspower
+    def __init__(self, pdcp1, pathloss1, pdcp2, pathloss2):
         self.pdcp1 = pdcp1
-        self.rsrp1 = rsrp1
+        self.pathloss1 = pathloss1
         self.pdcp2 = pdcp2
-        self.rsrp2 = rsrp2
+        self.pathloss2 = pathloss2
 
-    def pathloss_calculation_dataset_one(self, rsrp):
-        # Use to calculate the pathloss = rsrp - ssblockpower
-        global pathloss
-        data = []
-        for i in rsrp:
-            pathloss = i - self.sspower
-            data.append(pathloss)
-        pathloss = pd.DataFrame(data, columns=['Pathloss'])
-        # print(pathloss)
-        self.pathloss = pathloss
-        return pathloss
+    # def pathloss_calculation_dataset_one(self, rsrp):
+    #     # Use to calculate the pathloss = rsrp - ssblockpower
+    #     global pathloss
+    #     data = []
+    #     for i in rsrp:
+    #         pathloss = i - self.sspower
+    #         data.append(pathloss)
+    #     pathloss = pd.DataFrame(data, columns=['Pathloss'])
+    #     # print(pathloss)
+    #     self.pathloss = pathloss
+    #     return pathloss
 
-    def pathloss_calculation_dataset_two(self, rsrp2):
-        # Use to calculate the pathloss = rsrp - ssblockpower
-        global pathloss
-        data = []
-        for i in rsrp2:
-            pathloss = i - self.sspower
-            data.append(pathloss)
-        pathloss = pd.DataFrame(data, columns=['Pathloss'])
-        # print(pathloss)
-        self.pathloss = pathloss
-        return pathloss
+    # def pathloss_calculation_dataset_two(self, rsrp2):
+    #     # Use to calculate the pathloss = rsrp - ssblockpower
+    #     global pathloss
+    #     data = []
+    #     for i in rsrp2:
+    #         pathloss = i - self.sspower
+    #         data.append(pathloss)
+    #     pathloss = pd.DataFrame(data, columns=['Pathloss'])
+    #     # print(pathloss)
+    #     self.pathloss = pathloss
+    #     return pathloss
 
-    def plot_function(self, pathloss, pdcp, pathloss2, pdcp2):
+    def plot_function(self,pdcp1, pathloss, pdcp2, pathloss2, ):
         # print(pathloss)
         # print(pdcp)
         x = pathloss
-        y = pdcp
+        y = pdcp1
         x2 = pathloss2
         y2 = pdcp2
         fig = plt.figure()
@@ -223,14 +222,11 @@ df2 = pd.read_csv("rsrp_vs_pdcp_UL_mob.csv", sep=';', engine='python')
 pro = Processor(df)
 pro2 = Processor(df2)
 
-data1, rsrp1 = pro.csv_handler()
-dat1, rsrp2 = pro2.csv_handler()
+pdcp_1, pathloss1 = pro.csv_handler()
+pdcp_2, pathloss2 = pro2.csv_handler()
 
-plott = Plotter(-9, data1, rsrp1, dat1, rsrp2)
-pathloss1 = plott.pathloss_calculation_dataset_one(rsrp1)
-pathloss2 = plott.pathloss_calculation_dataset_two(rsrp2)
-
-plott.plot_function(pathloss1, data1, pathloss2, dat1)
+plott = Plotter()
+plott.plot_function(pathloss1, pdcp_1, pathloss2, pdcp_2)
 
 # pro.ssblock_power = pro.ssBlockPower_input()
 # pro.pathloss_calculation(pro.rsrp_, pro.ssblock_power)
