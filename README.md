@@ -4,7 +4,7 @@ Web app for computing and displaying throughput vs pathloss
 
 ## Requirements
 
-To run the application, [node](https://nodejs.org/en/) version >= **14.0.0** with [npm](https://www.npmjs.com/) version >= 8.15.0 and [python](https://www.python.org/) version >= **3.0** must be installed.
+To run the application, [node](https://nodejs.org/en/) version **>=14.0.0** with [npm](https://www.npmjs.com/) version **>=8.15.0** and [python](https://www.python.org/) version **>=3.0** must be installed.
 
 ### Setup development environment 
 To start the development environment via terminal or commandline:
