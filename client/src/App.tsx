@@ -1,6 +1,6 @@
 import './App.css';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Row from 'react-bootstrap/Row';
@@ -48,7 +48,7 @@ function App() {
   // This state will store the parsed data
   const [newCSVData, setNewCSVData] = useState<CSVFileType[]>([]);
   const [oldCSVData, setOldCSVData] = useState<CSVFileType[]>([]);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -56,16 +56,31 @@ function App() {
     const formatedOldCSVData = getPathlossPdcp(oldCSVData, SSPowerBlock);
     console.log(formatedNewCSVData);
     console.log(formatedOldCSVData);
-    setIsLoading(true)
+    setIsLoading(true);
     const res = await apiPostThroughputVsPathloss({
       newCSVData: formatedNewCSVData,
       oldCSVData: formatedOldCSVData,
     });
-    setIsLoading(false)
+    setIsLoading(false);
     console.log(res);
-    
+
     alert('Your data will be sent');
   };
+
+  useEffect(() => {
+    fetch('http://localhost:5005/', {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        // Authorization: `Bearer: ${token}`,
+        'Content-Type': 'application/json',
+      },
+      // body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then(console.log);
+      //
+  }, []);
 
   return (
     <div className='App'>

@@ -14,16 +14,16 @@ class Processor:
 
     def __init__(self, df):
         self.df = df
-        self.df2 = df2
-        self.rsrp_ = []
+        # self.df2 = df2
+        # self.rsrp_ = []
         self.pdcp_ = []
         self.pathloss = []
 
-    def csv_handler(data):
+    def csv_handler(self):
         # this reads the csv file, for now it uses pandas, use RESTapi to get the file for future.
         # Deal with different header naming conventions.
         # df = pd.read_csv("rsrp_vs_pdcp_DL_mob.csv", sep=';', engine='python')
-        df = pd.DataFrame(data.df)
+        df = pd.DataFrame(self.df)
         df.dropna()
         # PDCP = df['PDCP DL bitrate'].str.replace(',', '.').astype(float)
         # RSRP = df['1. best RSRP'].str.replace(',', '.').astype(float)
@@ -32,9 +32,9 @@ class Processor:
         # df = pd.DataFrame(list_of_tuples,
         #                 columns=['PDCP', 'RSRP'])
         print(df)
-        data.pdcp_ = df['pdcp']
-        data.pathloss = df['pathloss']
-        return data.pdcp_, data.pathloss
+        self.pdcp_ = df['pdcp']
+        self.pathloss = df['pathloss']
+        return self.pdcp_, self.pathloss
 
     # def dataFrame_handler(self):
     #     # df = pd.DataFrame(df)
@@ -217,16 +217,16 @@ class Plotter:
         plt.show()
 
 
-df = pd.read_csv("rsrp_vs_pdcp_DL_mob.csv", sep=';', engine='python')
-df2 = pd.read_csv("rsrp_vs_pdcp_UL_mob.csv", sep=';', engine='python')
-pro = Processor(df)
-pro2 = Processor(df2)
+# df = pd.read_csv("rsrp_vs_pdcp_DL_mob.csv", sep=';', engine='python')
+# df2 = pd.read_csv("rsrp_vs_pdcp_UL_mob.csv", sep=';', engine='python')
+# pro = Processor(df)
+# pro2 = Processor(df2)
 
-pdcp_1, pathloss1 = pro.csv_handler()
-pdcp_2, pathloss2 = pro2.csv_handler()
+# pdcp_1, pathloss1 = pro.csv_handler()
+# pdcp_2, pathloss2 = pro2.csv_handler()
 
-plott = Plotter()
-plott.plot_function(pathloss1, pdcp_1, pathloss2, pdcp_2)
+# plott = Plotter()
+# plott.plot_function(pathloss1, pdcp_1, pathloss2, pdcp_2)
 
 # pro.ssblock_power = pro.ssBlockPower_input()
 # pro.pathloss_calculation(pro.rsrp_, pro.ssblock_power)

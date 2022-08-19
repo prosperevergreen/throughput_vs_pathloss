@@ -1,8 +1,8 @@
 version: '3'
 services:
-  throughput_vs_pathloss_client:
-    container_name: throughput_vs_pathloss_client_prod
-    image: prosperevergreen/throughput-vs-pathloss-client:prod
+  throughput_vs_pathloss-client:
+    container_name: throughput_vs_pathloss-client-prod
+    image: prosperevergreen/throughput_vs_pathloss-client:prod
     build:
       context:  ./client
       dockerfile: Dockerfile
@@ -12,9 +12,9 @@ services:
       NODE_ENV: production
     restart: always
 
-  throughput_vs_pathloss_server:
-    container_name: throughput_vs_pathloss_server_prod
-    image: prosperevergreen/throughput-vs-pathloss-server:prod
+  throughput_vs_pathloss-server:
+    container_name: throughput_vs_pathloss-server-prod
+    image: prosperevergreen/throughput_vs_pathloss-server:prod
     build:
       context:  ./server
       dockerfile: Dockerfile
