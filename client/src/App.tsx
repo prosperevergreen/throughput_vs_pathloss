@@ -1,6 +1,6 @@
 import './App.css';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Row from 'react-bootstrap/Row';
@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import Graph from './imgs/demo.png';
+import DummyGraph from './imgs/demo.png';
 
 import CSVFileInput from './components/CSVFileInput';
 import SSPowerBlockInput from './components/SSPowerBlockInput';
@@ -49,38 +49,30 @@ function App() {
   const [newCSVData, setNewCSVData] = useState<CSVFileType[]>([]);
   const [oldCSVData, setOldCSVData] = useState<CSVFileType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [graphImage, setGraphImage] = useState(DummyGraph);
 
   const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
+    // Format CSVData: {pathloss: number, pdcp: number}[]
     const formatedNewCSVData = getPathlossPdcp(newCSVData, SSPowerBlock);
     const formatedOldCSVData = getPathlossPdcp(oldCSVData, SSPowerBlock);
-    console.log(formatedNewCSVData);
-    console.log(formatedOldCSVData);
+
+    // Reachout to server to process data
     setIsLoading(true);
     const res = await apiPostThroughputVsPathloss({
       newCSVData: formatedNewCSVData,
       oldCSVData: formatedOldCSVData,
     });
+    
+    // Convert png image to src type
+    const responseBlob = new Blob([res.data], { type: 'image/png' });
+    const reader = new window.FileReader();
+    reader.onload = () => {
+      setGraphImage(reader.result as string);
+    };
+    reader.readAsDataURL(responseBlob);
     setIsLoading(false);
-    console.log(res);
-
-    alert('Your data will be sent');
   };
-
-  useEffect(() => {
-    fetch('http://localhost:5005/', {
-      method: 'GET',
-      mode: 'cors',
-      headers: {
-        // Authorization: `Bearer: ${token}`,
-        'Content-Type': 'application/json',
-      },
-      // body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then(console.log);
-      //
-  }, []);
 
   return (
     <div className='App'>
@@ -120,7 +112,7 @@ function App() {
           <Row className='justify-content-center'>
             <Col md='10' lg='9' xl='8' xxl='7'>
               <Card className='p-2'>
-                <Card.Img variant='top' src={Graph} className='px-5' />
+                <Card.Img variant='top' src={graphImage} className='px-5' />
                 <Card.Body>
                   <Card.Title>Graph</Card.Title>
                   <Card.Text>

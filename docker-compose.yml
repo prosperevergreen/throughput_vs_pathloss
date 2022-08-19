@@ -19,7 +19,7 @@ services:
       context:  ./server
       dockerfile: Dockerfile
     ports:
-      - "5005:5000"
+      - "5005:5005"
     restart: always
 
 

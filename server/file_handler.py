@@ -199,13 +199,13 @@ class Plotter:
     #     self.pathloss = pathloss
     #     return pathloss
 
-    def plot_function(self,pdcp1, pathloss, pdcp2, pathloss2, ):
+    def plot_function(self, image_name):
         # print(pathloss)
         # print(pdcp)
-        x = pathloss
-        y = pdcp1
-        x2 = pathloss2
-        y2 = pdcp2
+        x = self.pathloss1
+        y = self.pdcp1
+        x2 = self.pathloss2
+        y2 = self.pdcp2
         fig = plt.figure()
         ax1 = fig.add_subplot(111)
 
@@ -214,7 +214,7 @@ class Plotter:
         plt.gca().invert_xaxis()
         plt.xlabel("Pathloss (dB)")
         plt.ylabel("Throughput (Mbps)")
-        plt.show()
+        return plt.savefig(image_name)
 
 
 # df = pd.read_csv("rsrp_vs_pdcp_DL_mob.csv", sep=';', engine='python')
