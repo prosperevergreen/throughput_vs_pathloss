@@ -1,13 +1,13 @@
-from flask import Flask, request, jsonify, make_response, send_from_directory
-from flask_cors import CORS
+import flask
+import flask_cors
 import json
 
 from file_handler import Processor, Plotter
 
 PLOT_IMAGE_NAME = 'plot_image.png'
 
-app = Flask(__name__)
-CORS(app)
+app = flask.Flask(__name__)
+flask_cors.CORS(app)
 
 
 @app.route('/')
@@ -18,7 +18,7 @@ def home():
 @app.route('/api/throughput-vs-pathloss', methods=['POST'])
 def throughput_vs_pathloss():
     # Extract request payload as JSON
-    request_data = request.get_json()
+    request_data = flask.request.get_json()
 
     # Get CSVData: [{pathloss: number, pdcp: number },...,]
     oldCSVData = request_data['oldCSVData']
@@ -38,7 +38,7 @@ def throughput_vs_pathloss():
     # Save graph as .png image
     plot.plot_function(PLOT_IMAGE_NAME)
 
-    return send_from_directory('./', PLOT_IMAGE_NAME, as_attachment=True)
+    return flask.send_from_directory('./', PLOT_IMAGE_NAME, as_attachment=True)
 
 
 if __name__ == "__main__":
