@@ -37,6 +37,7 @@ def throughput_vs_pathloss():
     print("I ran")
     # Save graph as .png image
     plot.plot_function(PLOT_IMAGE_NAME)
+    plot.machine_learning()
 
     return flask.send_from_directory('./', PLOT_IMAGE_NAME, as_attachment=True)
 
