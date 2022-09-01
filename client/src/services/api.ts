@@ -8,5 +8,5 @@ interface PostThroughputVsPathloss {
 
 export const apiPostThroughputVsPathloss = (data: PostThroughputVsPathloss) =>
   axios
-    .post('http://localhost:5005/api/throughput-vs-pathloss', data, {responseType: 'arraybuffer'})
+    .post(`http://${window.location.hostname}:5005/api/throughput-vs-pathloss`, data, {responseType: 'arraybuffer'})
     .then((res) => res);
