@@ -8,7 +8,6 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import DummyGraph from './imgs/demo.png';
 
 import CSVFileInput from './components/CSVFileInput';
 import SSPowerBlockInput from './components/SSPowerBlockInput';
@@ -48,7 +47,7 @@ const downloadImage = (image: string) => {
   link.setAttribute('download', 'build-compare.png'); //or any other extension
   document.body.appendChild(link);
   link.click();
-  document.body.removeChild(link)
+  document.body.removeChild(link);
 };
 
 function App() {
@@ -58,7 +57,7 @@ function App() {
   const [newCSVData, setNewCSVData] = useState<CSVFileType[]>([]);
   const [oldCSVData, setOldCSVData] = useState<CSVFileType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [graphImage, setGraphImage] = useState(DummyGraph);
+  const [graphImage, setGraphImage] = useState('');
 
   const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -118,21 +117,26 @@ function App() {
               </Button>
             </Col>
           </Row>
-          <Row className='justify-content-center'>
-            <Col md='10' lg='9' xl='8' xxl='7'>
-              <Card className='p-2'>
-                <Card.Img variant='top' src={graphImage} className='px-5' />
-                <Card.Body>
-                  <Card.Title>Graph</Card.Title>
-                  <Card.Text>
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                  </Card.Text>
-                  <Button variant='primary' onClick={(_e)=>downloadImage(graphImage)}>Download</Button>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
+          {graphImage && (
+            <Row className='justify-content-center'>
+              <Col md='10' lg='9' xl='8' xxl='7'>
+                <Card className='p-2'>
+                  <Card.Img variant='top' src={graphImage} className='px-5' />
+                  <Card.Body>
+                    <Card.Title>Graph</Card.Title>
+                    <Card.Text>
+                      Comparison between the selected software build of the throughput vs pathloss.
+                    </Card.Text>
+                    <Button
+                      variant='primary'
+                      onClick={(_e) => downloadImage(graphImage)}>
+                      Download
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+          )}
         </Form>
       </Container>
     </div>
