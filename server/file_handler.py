@@ -32,6 +32,7 @@ class Processor:
         # df = pd.DataFrame(list_of_tuples,
         #                 columns=['PDCP', 'RSRP'])
         print(df)
+        df = df.groupby(['pathloss'], as_index=False).mean()
         self.pdcp_ = df['pdcp']
         self.pathloss = df['pathloss']
         return self.pdcp_, self.pathloss
@@ -201,7 +202,7 @@ class Plotter:
 
         plt.show()  # display the plot on the screen
 
-        degrees = [3]
+        degrees = [5]
 
         tr_errors = []
         tr_errors2 = []
