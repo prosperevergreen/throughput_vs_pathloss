@@ -34,6 +34,7 @@ def throughput_vs_pathloss():
 
     # Plot graph of throughput vs pathloss
     plot = Plotter(pdcp1, pathloss1, pdcp2, pathloss2)
+    
     # Save graph as .png image
     plot.plot_function(PLOT_IMAGE_NAME)
 
