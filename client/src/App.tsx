@@ -42,6 +42,15 @@ const getPathlossPdcp = (CSVData: CSVFileType[], sspowerblock: number) => {
   }));
 };
 
+const downloadImage = (image: string) => {
+  const link = document.createElement('a');
+  link.href = image;
+  link.setAttribute('download', 'build-compare.png'); //or any other extension
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link)
+};
+
 function App() {
   // Read SS POWER BLOCK values
   const [SSPowerBlock, setSSPowerBlock] = useState(-6);
@@ -63,7 +72,7 @@ function App() {
       newCSVData: formatedNewCSVData,
       oldCSVData: formatedOldCSVData,
     });
-    
+
     // Convert png image to src type
     const responseBlob = new Blob([res.data], { type: 'image/png' });
     const reader = new window.FileReader();
@@ -119,7 +128,7 @@ function App() {
                     Some quick example text to build on the card title and make
                     up the bulk of the card's content.
                   </Card.Text>
-                  <Button variant='primary'>Download</Button>
+                  <Button variant='primary' onClick={(_e)=>downloadImage(graphImage)}>Download</Button>
                 </Card.Body>
               </Card>
             </Col>
