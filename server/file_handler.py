@@ -32,6 +32,7 @@ class Processor:
         # df = pd.DataFrame(list_of_tuples,
         #                 columns=['PDCP', 'RSRP'])
         print(df)
+        df = df.groupby(['pathloss'], as_index=False).mean()
         self.pdcp_ = df['pdcp']
         self.pathloss = df['pathloss']
         return self.pdcp_, self.pathloss
@@ -143,11 +144,11 @@ class Plotter:
     def machine_learning(self, linear_regression, poly_regression):
         # feature X = pathloss
         # label Y = pdcp
-        pathloss = pd.DataFrame(self.pathloss)
-        pdcp = pd.DataFrame(self.pdcp)
+        pathloss1 = pd.DataFrame(self.pathloss1)
+        pdcp1 = pd.DataFrame(self.pdcp1)
         ## 1. Fit a linear regression model
-        X = pathloss.to_numpy().reshape(-1, 1)
-        y = pdcp.to_numpy()
+        X = pathloss1.to_numpy().reshape(-1, 1)
+        y = pdcp1.to_numpy()
 
         y = np.where(np.isnan(y), 0, y)
         X = np.where(np.isnan(X), 0, X)
@@ -201,7 +202,7 @@ class Plotter:
 
         plt.show()  # display the plot on the screen
 
-        degrees = [3]
+        degrees = [5]
 
         tr_errors = []
         tr_errors2 = []

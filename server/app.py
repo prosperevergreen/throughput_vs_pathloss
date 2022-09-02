@@ -5,6 +5,8 @@ import json
 from file_handler import Processor, Plotter
 
 PLOT_IMAGE_NAME = 'plot_image.png'
+LINEAR_REGRESSION = 'linear_regression'
+POLY_REGRESSION = 'Poly_regression'
 
 app = flask.Flask(__name__)
 flask_cors.CORS(app)
@@ -34,11 +36,10 @@ def throughput_vs_pathloss():
 
     # Plot graph of throughput vs pathloss
     plot = Plotter(pdcp1, pathloss1, pdcp2, pathloss2)
-    
     # Save graph as .png image
     plot.plot_function(PLOT_IMAGE_NAME)
+    plot.machine_learning(LINEAR_REGRESSION, POLY_REGRESSION)
 
-    # Return the image
     return flask.send_from_directory('./', PLOT_IMAGE_NAME, as_attachment=True)
 
 
