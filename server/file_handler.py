@@ -33,64 +33,12 @@ class Processor:
         #                 columns=['PDCP', 'RSRP'])
         print(df)
         df = df.groupby(['pathloss'], as_index=False).mean()
+        # df = df[df['pdcp'] > 10]
         self.pdcp_ = df['pdcp']
         self.pathloss = df['pathloss']
         return self.pdcp_, self.pathloss
 
-    # def dataFrame_handler(self):
-    #     # df = pd.DataFrame(df)
-    #     self.df.dropna()
-    #     PDCP = self.df['PDCP DL bitrate'].str.replace(',', '.').astype(float)
-    #     RSRP = self.df['1. best RSRP'].str.replace(',', '.').astype(float)
-    #     # rsrp_pdcp = df[['PDCP DL bitrate', '1. best RSRP']].str.apply(lambda x: x.replace(',', '.')).astype('float')
-    #     list_of_tuples = list(zip(PDCP, RSRP))
-    #     df = pd.DataFrame(list_of_tuples,
-    #                       columns=['PDCP', 'RSRP'])
-    #     print(df)
-    #     return df
 
-    # def ssBlockPower_input(self):
-    #     while True:
-    #         ssblockPower = int(input("Enter the sspowerBlock(dB): "))
-    #         if ssblockPower > 0:
-    #             print("Ssblock Power is a negative number")
-    #         else:
-    #             return ssblockPower
-
-    # def pathloss_calculation(self, rsrp, ssblock_power):
-    #     # Use to calculate the pathloss = rsrp - ssblockpower
-    #     global pathloss
-    #     data = []
-    #     for i in rsrp:
-    #         pathloss = i - ssblock_power
-    #         data.append(pathloss)
-    #     pathloss = pd.DataFrame(data, columns=['Pathloss'])
-    #     # print(pathloss)
-    #     self.pathloss = pathloss
-    #     return pathloss
-
-    # def plot_function(self, pathloss, pdcp):
-    #     # print(pathloss)
-    #     # print(pdcp)
-    #     x = pathloss
-    #     y = pdcp
-    #     plt.scatter(x, y)
-    #     plt.gca().invert_xaxis()
-    #     plt.xlabel("Pathloss (dB)")
-    #     plt.ylabel("Throughput (Mbps)")
-    #     plt.show()
-
-
-    # rsrp_pdcp = csv_handler()
-
-    # ssbP = ssBlockPower_input()
-
-    # pdcp = rsrp_pdcp['PDCP']
-
-    # pathloss = pathloss_calculation(rsrp_pdcp['RSRP'], ssbP)
-
-    # plot_function(pathloss, pdcp)
-    # machine_learning(pathloss, pdcp)
 
 
 class Plotter:
@@ -134,11 +82,13 @@ class Plotter:
         fig = plt.figure()
         ax1 = fig.add_subplot(111)
 
-        ax1.scatter(x, y, c='r')
-        ax1.scatter( x2, y2, c='g')
+        ax1.plot(x, y, c='r')
+        ax1.plot(x2, y2, c='g')
+        ax1.set_yscale('log')
         plt.gca().invert_xaxis()
+        plt.grid(True)
         plt.xlabel("Pathloss (dB)")
-        plt.ylabel("Throughput (Mbps)")
+        plt.ylabel("PDCP (log-scale)")
         return plt.savefig(image_name)
 
     def machine_learning(self, linear_regression, poly_regression):
