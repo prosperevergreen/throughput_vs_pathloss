@@ -21,7 +21,7 @@ def home():
 def throughput_vs_pathloss():
     # Extract request payload as JSON
     request_data = flask.request.get_json()
-
+    #print("this is request data:",request_data)
     # Get CSVData: [{pathloss: number, pdcp: number },...,]
     oldCSVData = request_data['oldCSVData']
     newCSVData = request_data['newCSVData']
